@@ -1,9 +1,10 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://Scenes/Floor.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Scenes/Player.tscn" type="PackedScene" id=2]
 [ext_resource path="res://Scenes/Obstacle.tscn" type="PackedScene" id=3]
 [ext_resource path="res://Scenes/Main.gd" type="Script" id=4]
+[ext_resource path="res://Scripts/Camera.gd" type="Script" id=5]
 
 [node name="Main" type="Spatial"]
 script = ExtResource( 4 )
@@ -15,3 +16,7 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 0 )
 
 [node name="Obstacle" parent="." instance=ExtResource( 3 )]
 transform = Transform( 3.8637, 0, -1.03528, 0, 4, 0, 1.03528, 0, 3.8637, 10, 4, 7 )
+
+[node name="Camera" type="Camera" parent="."]
+script = ExtResource( 5 )
+targetPath = NodePath("../Player")
