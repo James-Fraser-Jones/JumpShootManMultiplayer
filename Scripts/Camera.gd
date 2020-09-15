@@ -1,23 +1,26 @@
 extends Camera
 
 export var radius : float = 10
+export var verticalSensitivity : float = 0.004
+export var horizontalSensitivity : float = 0.004
+export var minPitch : float = -90
+export var maxPitch : float = 90
+export var initPitch : float = 45
+export var yOffset : float = 3
 export var targetPath : NodePath
-export var lookSensitivity : float = 0.004
-export var initAngle : float = -45
 
-var camRotation : Vector2 = Vector2(0, deg2rad(initAngle))
+var camRotation : Vector2 = Vector2(0, deg2rad(-initPitch))
 var target : Spatial
 
-# Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	target = get_node(targetPath)
 	updateRotation()
 	
 func _input(event):
 	if event is InputEventMouseMotion:
-		camRotation.x = fposmod(camRotation.x - event.relative.x * lookSensitivity, deg2rad(360))
-		camRotation.y = clamp(fmod(camRotation.y - event.relative.y * lookSensitivity, deg2rad(360))
-			, deg2rad(-90), deg2rad(90))
+		camRotation.x = fposmod(camRotation.x - event.relative.x * horizontalSensitivity, deg2rad(360))
+		camRotation.y = clamp(fmod(camRotation.y - event.relative.y * verticalSensitivity, deg2rad(360))
+			, deg2rad(-maxPitch), deg2rad(-minPitch))
 		updateRotation()
 
 func _process(delta: float) -> void:
@@ -31,5 +34,6 @@ func updateRotation() -> void:
 func updatePosition() -> void:
 	translation = target.translation
 	translate_object_local(Vector3.BACK * radius)
+	translation.y += yOffset
 
 
