@@ -1,6 +1,8 @@
 extends Spatial
 
-#NOTE: FROM HERE ON THE PROJECT WILL BE USING GODOT'S 3D UNITS TO BE METERS.
+#UNITS:
+#Distance: Meters
+#Mass: Kilograms
 
 func _input(event: InputEvent) -> void:
 	if event is InputEventKey:

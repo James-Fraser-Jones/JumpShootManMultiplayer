@@ -22,7 +22,6 @@ constant_angular_velocity = Vector3( 0, 10, 0 )
 
 [node name="Player" parent="." instance=ExtResource( 2 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0 )
-mass = 4.0
 cameraPath = NodePath("../Camera")
 
 [node name="Camera" type="Camera" parent="."]
