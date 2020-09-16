@@ -1,10 +1,11 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://Scenes/Floor.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Scenes/Player.tscn" type="PackedScene" id=2]
 [ext_resource path="res://Scenes/Obstacle.tscn" type="PackedScene" id=3]
-[ext_resource path="res://Scenes/Main.gd" type="Script" id=4]
+[ext_resource path="res://Scripts/Main.gd" type="Script" id=4]
 [ext_resource path="res://Scripts/Camera.gd" type="Script" id=5]
+[ext_resource path="res://Scenes/Wall.tscn" type="PackedScene" id=6]
 
 [node name="Main" type="Spatial"]
 script = ExtResource( 4 )
@@ -28,3 +29,14 @@ cameraPath = NodePath("../Camera")
 far = 1000.0
 script = ExtResource( 5 )
 targetPath = NodePath("../Player")
+
+[node name="Wall" parent="." instance=ExtResource( 6 )]
+
+[node name="Wall2" parent="." instance=ExtResource( 6 )]
+transform = Transform( -1.62921e-07, 0, 1, 0, 1, 0, -1, 0, -1.62921e-07, 0, 0, 0 )
+
+[node name="Wall3" parent="." instance=ExtResource( 6 )]
+transform = Transform( -1, 0, -3.25841e-07, 0, 1, 0, 3.25841e-07, 0, -1, 0, 0, 0 )
+
+[node name="Wall4" parent="." instance=ExtResource( 6 )]
+transform = Transform( 1.19249e-08, 0, -1, 0, 1, 0, 1, 0, 1.19249e-08, 0, 0, 0 )
