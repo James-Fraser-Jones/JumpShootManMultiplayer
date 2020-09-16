@@ -1,12 +1,12 @@
 extends Camera
 
-export var radius : float = 10
+export var radius : float = 5
 export var verticalSensitivity : float = 0.004
 export var horizontalSensitivity : float = 0.004
 export var minPitch : float = -90
 export var maxPitch : float = 90
 export var initPitch : float = 45
-export var yOffset : float = 3
+export var yOffset : float = 2
 export var targetPath : NodePath
 
 var camRotation : Vector2 = Vector2(0, deg2rad(-initPitch))
