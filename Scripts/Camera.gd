@@ -40,8 +40,7 @@ func _physics_process(delta):
 	#cast ray and check for collision
 	var space_state = get_world().direct_space_state
 	var result : Dictionary = space_state.intersect_ray(orbitPosition, camPosition, [target])
-	if result and result.collider != self: 
-		camPosition = result.position + result.normal * margin
+	if result: camPosition = result.position + result.normal * margin
 	
 	#apply translation
 	translation = camPosition

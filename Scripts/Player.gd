@@ -45,3 +45,12 @@ func handleRotation(movement: Vector2) -> void:
 		oldRotation = Quat($MeshInstance.transform.basis)
 		targetRotation = newRotation
 		rotationWeight = 0
+
+#just found out about lerp_angle()
+func modularMinDistance(from: float, to: float, mod: float) -> float:
+	var rot : float = fposmod(to, mod) - fposmod(from, mod)
+	var alt : float = rot - mod * sign(rot)
+	if abs(rot) <= abs(alt):
+		return rot
+	else:
+		return alt
