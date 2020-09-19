@@ -4,12 +4,13 @@ extends Spatial
 #Distance: Meters
 #Mass: Kilograms
 
-#TODO:
+#DONE:
 #Clipping Camera
-#	cast a ray from camera to player (or orbit point, I'm not sure)
-#	if player is NOT visible, cast a ray from player to camera to find blocker nearest player
-#	place camera ahead of that blocker by a given "radius"
-#Increase player transparency as clipped camera gets closer to player
+#Smooth Camera
+#Smooth yOffset for Camera (based on clipping distance)
+#Increase player transparency (based on camera distance)
+
+#TODO:
 #Max velocity from directional movement
 #	this can be done by looking at direction of existing velocity
 #	finding component of the force to be added from directional movement in this direction
