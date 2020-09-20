@@ -4,7 +4,7 @@
 [ext_resource path="res://Textures/texture_08_green_eyes.png" type="Texture" id=2]
 
 [sub_resource type="PhysicsMaterial" id=1]
-friction = 0.5
+friction = 0.6
 rough = true
 
 [sub_resource type="CapsuleShape" id=2]
@@ -17,33 +17,24 @@ mid_height = 0.9
 
 [sub_resource type="SpatialMaterial" id=4]
 albedo_texture = ExtResource( 2 )
-distance_fade_mode = 3
-distance_fade_min_distance = 0.1
+distance_fade_mode = 2
+distance_fade_min_distance = 0.0
 distance_fade_max_distance = 3.0
 
 [sub_resource type="CylinderMesh" id=5]
 
 [sub_resource type="SpatialMaterial" id=6]
 albedo_color = Color( 0.623529, 0.270588, 0.12549, 1 )
-distance_fade_mode = 3
-distance_fade_min_distance = 0.1
-distance_fade_max_distance = 3.0
 
 [sub_resource type="CylinderMesh" id=7]
 
 [sub_resource type="SpatialMaterial" id=8]
 albedo_color = Color( 0.737255, 0.278431, 0.0784314, 1 )
-distance_fade_mode = 3
-distance_fade_min_distance = 0.1
-distance_fade_max_distance = 3.0
 
 [sub_resource type="CylinderMesh" id=9]
 
 [sub_resource type="SpatialMaterial" id=10]
 albedo_color = Color( 0, 0, 0, 1 )
-distance_fade_mode = 3
-distance_fade_min_distance = 0.1
-distance_fade_max_distance = 3.0
 
 [node name="Player" type="RigidBody"]
 mode = 2

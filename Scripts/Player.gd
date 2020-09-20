@@ -23,7 +23,7 @@ func _physics_process(delta: float) -> void:
 	if Input.is_action_pressed("ui_down"): movement.y += 1
 	if movement != Vector2.ZERO:
 		add_central_force((Vector3(movement.x, 0, movement.y).normalized() * runForce * delta).rotated(
-			Vector3.UP, camera.camRotation.x))
+			Vector3.UP, camera.ori.x))
 		handleRotation(movement)
 		
 func _process(delta: float) -> void:
@@ -36,7 +36,7 @@ func _input(event):
 		apply_central_impulse(Vector3.UP * jumpForce)
 
 func handleRotation(movement: Vector2) -> void:
-	var rot = camera.camRotation.x - movement.angle() - deg2rad(90)
+	var rot = camera.ori.x - movement.angle() - deg2rad(90)
 	if rot != newRotation:
 		oldRotation = $MeshInstance.rotation.y
 		newRotation = rot

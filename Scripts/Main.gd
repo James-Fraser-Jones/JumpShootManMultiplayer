@@ -5,10 +5,11 @@ extends Spatial
 #Mass: Kilograms
 
 #DONE:
-#Clipping Camera
-#Smooth Camera
-#Smooth yOffset for Camera (based on clipping distance)
-#Increase player transparency (based on camera distance)
+#Add camera clipping
+#Add camera orientation smoothing
+#Add camera yOffset scaling
+#Add player distance fade
+#Add camera radius smoothing
 
 #TODO:
 #Max velocity from directional movement
