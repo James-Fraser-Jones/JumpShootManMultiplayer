@@ -1,27 +1,27 @@
 extends Camera
 
-#radius vars
-export var maxRadius : float = 5 #radius at which camera orbits around target
-export var radSmoothing : float = 0.5
+#radius
+export var radMax : float = 5 #radius at which camera orbits around target
+export var radSmoothing : float = 0.3
 
-#orientation vars
+#offset
+export var offsetMax : float = 2 #how high camera hovers above target object
+export var offsetSmoothing : float = 0.3
+
+#orientation
 export var maxPitch : float = 90
-export var initPitch : float = 45
 export var minPitch : float = -90
-export var oriSmoothing : float = 0.2 #how many seconds required to "catch up"
+export var oriSmoothing : float = 0.2
 export var oriSensitivity : float = 0.2 #multiplier of raw mouse co-ordinates
 
-#misc vars
-export var yOffset : float = 2 #how high camera hovers above target object
-export var margin : float = 0.1 #how far away camera stays from colliding objects
-
+#target
 export var targetPath : NodePath
 
-var rad : float = maxRadius
-
-var ori : Vector2 = Vector2(0, deg2rad(-initPitch)) #current orbit camera orientation in radians
+#state
+var rad : float = radMax
+var offset : float = offsetMax
+var ori : Vector2 = Vector2(0, deg2rad(-45)) #current orbit camera orientation in radians
 var oriDebt : Vector2 = Vector2.ZERO #amount of rotation to apply to orientation in future (for camera smoothing)
-
 var target : Spatial #reference to target object
 
 func _ready() -> void:
@@ -56,21 +56,24 @@ func _physics_process(delta):
 	rotate_object_local(Vector3.RIGHT, ori.y)
 	
 	#cast ray and check for collision
-	var idealPosition : Vector3 = target.translation + transform.basis.z * maxRadius
+	var idealPosition : Vector3 = target.translation + transform.basis.z * radMax
 	var space_state = get_world().direct_space_state
 	var result : Dictionary = space_state.intersect_ray(target.translation, idealPosition, [target])
 	if result:
-		var collisionVector: Vector3 = result.position - target.translation
 		var idealVector: Vector3 = idealPosition - target.translation
+		var collisionVector: Vector3 = result.position - target.translation
 		var collisionRatio: float = collisionVector.length() / idealVector.length()
-		setTranslation(delta, collisionVector.length(), result.normal * margin, collisionRatio)
-	else: setTranslation(delta, maxRadius, Vector3.ZERO, 1)
+		setTranslation(delta, collisionVector.length(), collisionRatio)
+	else: setTranslation(delta, radMax, 1)
 
-func setTranslation(delta: float, radTarget: float, marginVector: Vector3, collisionRatio: float) -> void:
+func setTranslation(delta: float, radTarget: float, collisionRatio: float) -> void:
 	var radDiff : float = radTarget - rad
 	var z_paid : float = min_zero(radDiff * delta / radSmoothing, radDiff)
 	rad += z_paid
-	translation = target.translation + (transform.basis.z * rad) + marginVector + (Vector3.UP * yOffset * collisionRatio)
+	var offsetDiff : float = offsetMax * collisionRatio - offset
+	var offset_paid : float = min_zero(offsetDiff * delta / offsetSmoothing, offsetDiff)
+	offset += offset_paid
+	translation = target.translation + (transform.basis.z * rad) + (Vector3.UP * offset)
 
 #return value closest to 0
 func min_zero(a: float, b: float) -> float:

@@ -10,6 +10,7 @@ extends Spatial
 #Add camera yOffset scaling
 #Add player distance fade
 #Add camera radius smoothing
+#Add camera offset smoothing
 
 #TODO:
 #Max velocity from directional movement
