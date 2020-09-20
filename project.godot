@@ -50,6 +50,10 @@ ui_down={
  ]
 }
 
+[physics]
+
+3d/default_gravity=9.8
+
 [rendering]
 
 environment/default_environment="res://default_env.tres"

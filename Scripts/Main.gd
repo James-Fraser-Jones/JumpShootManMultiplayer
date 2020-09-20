@@ -11,18 +11,15 @@ extends Spatial
 #Add player distance fade
 #Add camera radius smoothing
 #Add camera offset smoothing
+#Max velocity from directional movement
 
 #TODO:
-#Max velocity from directional movement
-#	this can be done by looking at direction of existing velocity
-#	finding component of the force to be added from directional movement in this direction
-#	culling this component so that, when applied, it will not push velocity in that direction
-#	beyond a given "max speed". This will still allow other forces to shoot the player
-#	in any given direction beyond that max speed.
-#Jumps gated by standing on ground of less than a specific angle
-#Add health and death mechanics
+#Have jumps gated by standing on ground of less than a specific angle
+#Add HUD health and death mechanics
 #Add guns, bullet spawning, bullet collision and logic
 #Add multiplayer
+#Add sounds
+#Add splash screen
 
 func _input(event: InputEvent) -> void:
 	if event is InputEventKey:

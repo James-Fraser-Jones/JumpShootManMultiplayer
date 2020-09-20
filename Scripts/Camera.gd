@@ -11,7 +11,7 @@ export var offsetSmoothing : float = 0.3
 #orientation
 export var maxPitch : float = 90
 export var minPitch : float = -90
-export var oriSmoothing : float = 0.2
+export var oriSmoothing : float = 0.18
 export var oriSensitivity : float = 0.2 #multiplier of raw mouse co-ordinates
 
 #target
