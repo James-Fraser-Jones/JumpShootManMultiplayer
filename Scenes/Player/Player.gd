@@ -1,7 +1,7 @@
 extends RigidBody
 
-export var runForce : float = 80000
-export var maxSpeed : float = 6
+export var runForce : float = 100000
+export var maxSpeed : float = 7
 export var rotationSpeed : float = 10
 
 export var jumpForce : float = 300
@@ -32,13 +32,14 @@ func _physics_process(delta: float) -> void:
 			moveVector = moveVector.project(velocityVector.rotated(PI/2))
 		add_central_force(Vector3(moveVector.x, 0, moveVector.y) * delta)
 		handleRotation(arrows)
+		#print(velocityVector.length())
 		
 func _process(delta: float) -> void:
 	if rotationWeight < 1:
 		rotationWeight = min(1, rotationWeight + rotationSpeed * delta)
 		$MeshInstance.rotation.y = lerp_angle(oldRotation, newRotation, rotationWeight)
 
-func _input(event):
+func _input(event: InputEvent):
 	if event.is_action_pressed("ui_select"):
 		apply_central_impulse(Vector3.UP * jumpForce)
 

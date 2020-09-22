@@ -16,7 +16,7 @@ _global_script_class_icons={
 [application]
 
 config/name="Jump Shoot Man Multiplayer"
-run/main_scene="res://Scenes/Main.tscn"
+run/main_scene="res://Scenes/Main/Main.tscn"
 config/icon="res://icon.png"
 
 [input]
@@ -50,10 +50,7 @@ ui_down={
  ]
 }
 
-[physics]
-
-3d/default_gravity=9.8
-
 [rendering]
 
+environment/default_clear_color=Color( 1, 1, 1, 1 )
 environment/default_environment="res://default_env.tres"
