@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=2]
+[gd_scene load_steps=12 format=2]
 
 [ext_resource path="res://Scenes/Player/Player.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Scenes/Floor.tscn" type="PackedScene" id=2]
@@ -8,6 +8,9 @@
 [ext_resource path="res://Scripts/Camera.gd" type="Script" id=6]
 [ext_resource path="res://Models/shotgun/shotgun.glb" type="PackedScene" id=7]
 [ext_resource path="res://Models/rocketlauncher/rocketlauncher.glb" type="PackedScene" id=8]
+[ext_resource path="res://Scripts/GammaFix.gd" type="Script" id=9]
+[ext_resource path="res://Models/uzigoldlongsilencer/uzigoldlongsilencer.glb" type="PackedScene" id=10]
+[ext_resource path="res://Models/machinegun/machinegun.glb" type="PackedScene" id=11]
 
 [node name="Main" type="Spatial"]
 script = ExtResource( 5 )
@@ -51,4 +54,14 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 5.10345, 0.72246, 4.49222 )
 
 [node name="DirectionalLight" type="DirectionalLight" parent="."]
 transform = Transform( 1, 0, 0, 0, 0.898794, 0.438371, 0, -0.438371, 0.898794, 0, 0, 0 )
-light_energy = 0.6
+light_indirect_energy = 0.0
+
+[node name="GammaFix" type="Node" parent="."]
+script = ExtResource( 9 )
+path = "Models/uzigoldlongsilencer"
+
+[node name="machinegun" parent="GammaFix" instance=ExtResource( 11 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 8.27866, 0.517749, -0.384072 )
+
+[node name="uzigoldlongsilencer" parent="GammaFix" instance=ExtResource( 10 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 10.0004, 0.652499, -4.34586 )
