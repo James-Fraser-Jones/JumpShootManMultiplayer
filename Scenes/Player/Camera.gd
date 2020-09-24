@@ -11,11 +11,8 @@ export var offsetSmoothing : float = 0.3
 #orientation
 export var maxPitch : float = 90
 export var minPitch : float = -90
-export var oriSmoothing : float = 0.18
+export var oriSmoothing : float = 0.15
 export var oriSensitivity : float = 0.15 #multiplier of raw mouse co-ordinates
-
-#target
-export var targetPath : NodePath
 
 #state
 var rad : float = radMax
@@ -25,7 +22,7 @@ var oriDebt : Vector2 = Vector2.ZERO #amount of rotation to apply to orientation
 var target : Spatial #reference to target object
 
 func _ready() -> void:
-	target = get_node(targetPath)
+	target = get_parent()
 	
 func _input(event):
 	if event is InputEventMouseMotion:
@@ -73,7 +70,7 @@ func setTranslation(delta: float, radTarget: float, collisionRatio: float) -> vo
 	var offsetDiff : float = offsetMax * collisionRatio - offset
 	var offset_paid : float = min_zero(offsetDiff * delta / offsetSmoothing, offsetDiff)
 	offset += offset_paid
-	translation = target.translation + (transform.basis.z * rad) + (Vector3.UP * offset)
+	translation = transform.basis.z * rad + Vector3.UP * offset
 
 #return value closest to 0
 func min_zero(a: float, b: float) -> float:

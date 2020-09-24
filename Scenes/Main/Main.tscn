@@ -5,7 +5,7 @@
 [ext_resource path="res://Scenes/Obstacle.tscn" type="PackedScene" id=3]
 [ext_resource path="res://Scenes/Wall.tscn" type="PackedScene" id=4]
 [ext_resource path="res://Scenes/Main/Main.gd" type="Script" id=5]
-[ext_resource path="res://Scripts/Camera.gd" type="Script" id=6]
+[ext_resource path="res://Scenes/Obstacle_Big.tscn" type="PackedScene" id=6]
 [ext_resource path="res://Models/shotgun/shotgun.glb" type="PackedScene" id=7]
 [ext_resource path="res://Models/rocketlauncher/rocketlauncher.glb" type="PackedScene" id=8]
 [ext_resource path="res://Scripts/GammaFix.gd" type="Script" id=9]
@@ -19,18 +19,12 @@ script = ExtResource( 5 )
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1, 0 )
 
 [node name="Obstacle" parent="." instance=ExtResource( 3 )]
-transform = Transform( 0.965926, 0, -0.25882, 0, 1, 0, 0.25882, 0, 0.965926, 10, 1, 7 )
-constant_angular_velocity = Vector3( 0, 10, 0 )
-
-[node name="Obstacle2" parent="." instance=ExtResource( 3 )]
-transform = Transform( 3.6041, -2.01309, -2.82098, 0.573038, 4.3601, -2.37932, 3.41791, 1.39176, 3.37356, -8.86677, 0.927031, 0.990553 )
-constant_angular_velocity = Vector3( 0, 10, 0 )
-
-[node name="Player" parent="." instance=ExtResource( 1 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0 )
-cameraPath = NodePath("../Camera")
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 10, 1.5, 7 )
 
 [node name="Wall" parent="." instance=ExtResource( 4 )]
+visible = false
+collision_layer = 2
+collision_mask = 2
 
 [node name="Wall2" parent="." instance=ExtResource( 4 )]
 transform = Transform( -1.62921e-07, 0, 1, 0, 1, 0, -1, 0, -1.62921e-07, 0, 0, 0 )
@@ -40,11 +34,6 @@ transform = Transform( -1, 0, -3.25841e-07, 0, 1, 0, 3.25841e-07, 0, -1, 0, 0, 0
 
 [node name="Wall4" parent="." instance=ExtResource( 4 )]
 transform = Transform( 1.19249e-08, 0, -1, 0, 1, 0, 1, 0, 1.19249e-08, 0, 0, 0 )
-
-[node name="Camera" type="Camera" parent="."]
-far = 1000.0
-script = ExtResource( 6 )
-targetPath = NodePath("../Player")
 
 [node name="shotgun" parent="." instance=ExtResource( 7 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 6.482, 0.742, -4.43 )
@@ -60,8 +49,14 @@ light_indirect_energy = 0.0
 script = ExtResource( 9 )
 path = "Models/uzigoldlongsilencer"
 
-[node name="machinegun" parent="GammaFix" instance=ExtResource( 11 )]
+[node name="machinegun" parent="." instance=ExtResource( 11 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 8.27866, 0.517749, -0.384072 )
 
-[node name="uzigoldlongsilencer" parent="GammaFix" instance=ExtResource( 10 )]
+[node name="uzigoldlongsilencer" parent="." instance=ExtResource( 10 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 10.0004, 0.652499, -4.34586 )
+
+[node name="Player" parent="." instance=ExtResource( 1 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0 )
+
+[node name="Obstacle_Big" parent="." instance=ExtResource( 6 )]
+transform = Transform( 0.72169, 0.557749, -0.409974, 0.244054, 0.349213, 0.904703, 0.647766, -0.752971, 0.115903, -7.98683, 1.01542, -2.69195 )
