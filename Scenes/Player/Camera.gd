@@ -11,7 +11,7 @@ export var offsetSmoothing : float = 0.3
 #orientation
 export var maxPitch : float = 90
 export var minPitch : float = -90
-export var oriSmoothing : float = 0.15
+export var oriSmoothing : float = 0.1
 export var oriSensitivity : float = 0.15 #multiplier of raw mouse co-ordinates
 
 #state
@@ -19,6 +19,8 @@ var rad : float = radMax
 var offset : float = offsetMax
 var ori : Vector2 = Vector2(0, deg2rad(-45)) #current orbit camera orientation in radians
 var oriDebt : Vector2 = Vector2.ZERO #amount of rotation to apply to orientation in future (for camera smoothing)
+var radTarget: float = radMax
+var collisionRatio: float = 1
 var target : Spatial #reference to target object
 
 func _ready() -> void:
@@ -28,10 +30,10 @@ func _input(event):
 	if event is InputEventMouseMotion:
 		oriDebt += event.relative * oriSensitivity
 
-func _physics_process(delta):
-	#calculate debt to pay this frame
-	var xPaid : float = min_zero(oriDebt.x * delta / oriSensitivity, oriDebt.x)
-	var yPaid : float = min_zero(oriDebt.y * delta / oriSensitivity, oriDebt.y)
+func _process(delta) -> void:
+	#calculate orientation debt to pay this frame
+	var xPaid : float = min_zero(oriDebt.x * delta / oriSmoothing, oriDebt.x)
+	var yPaid : float = min_zero(oriDebt.y * delta / oriSmoothing, oriDebt.y)
 	
 	#pay debt into camOrientation
 	ori.x = fposmod(ori.x - deg2rad(xPaid), deg2rad(360))
@@ -51,7 +53,10 @@ func _physics_process(delta):
 	transform.basis = Basis()
 	rotate_object_local(Vector3.UP, ori.x)
 	rotate_object_local(Vector3.RIGHT, ori.y)
-	
+		
+	setTranslation(delta, radTarget, collisionRatio)
+
+func _physics_process(delta: float) -> void:
 	#cast ray and check for collision
 	var idealPosition : Vector3 = target.translation + transform.basis.z * radMax
 	var space_state = get_world().direct_space_state
@@ -59,9 +64,11 @@ func _physics_process(delta):
 	if result:
 		var idealVector: Vector3 = idealPosition - target.translation
 		var collisionVector: Vector3 = result.position - target.translation
-		var collisionRatio: float = collisionVector.length() / idealVector.length()
-		setTranslation(delta, collisionVector.length(), collisionRatio)
-	else: setTranslation(delta, radMax, 1)
+		radTarget = collisionVector.length()
+		collisionRatio = collisionVector.length() / idealVector.length()
+	else: 
+		radTarget = radMax
+		collisionRatio = 1
 
 func setTranslation(delta: float, radTarget: float, collisionRatio: float) -> void:
 	var radDiff : float = radTarget - rad

@@ -48,6 +48,8 @@ light_indirect_energy = 0.0
 [node name="GammaFix" type="Node" parent="."]
 script = ExtResource( 9 )
 path = "Models/uzigoldlongsilencer"
+reverse = false
+fix = false
 
 [node name="machinegun" parent="." instance=ExtResource( 11 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 8.27866, 0.517749, -0.384072 )

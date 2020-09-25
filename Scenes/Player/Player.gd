@@ -1,16 +1,25 @@
 extends KinematicBody
 
-var rotationSpeed : float = 10
-var rotationWeight : float = 1
+export var rotationSpeed : float = 10
+export var gravity : float = 12
+export var speed : float = 8
+export var sprint_speed_scalar : float = 1.5
+export var jump_speed: float = 5
+
 var oldRotation : float
 var newRotation : float
-
-var gravity : float = 9.8
-var speed : float = 8
-var jump_speed: float = 6
-var unclimbable_angle: float = deg2rad(50)
-
+var rotationWeight : float = 1
+var sprintDirection : bool = false
+var sprinting : bool = false
 var velocity : Vector3 = Vector3.ZERO
+
+func _input(event: InputEvent) -> void:
+	if event.is_action_pressed("sprint"):
+		if sprinting:
+			sprinting = false
+		else:
+			if sprintDirection:
+				sprinting = true
 
 func _physics_process(delta: float) -> void:
 	var arrows : Vector2 = Vector2.ZERO
@@ -18,29 +27,30 @@ func _physics_process(delta: float) -> void:
 	if Input.is_action_pressed("ui_right"): arrows.x += 1
 	if Input.is_action_pressed("ui_up"): arrows.y -= 1
 	if Input.is_action_pressed("ui_down"): arrows.y += 1
-	arrows = arrows.normalized().rotated(-$Camera.ori.x) * speed
+	sprintDirection = arrows.y == -1
+	if !sprintDirection: sprinting = false	
+	arrows = arrows.normalized().rotated(-$Camera.ori.x) * (sprint_speed_scalar if sprinting else 1) * speed
 	
 	if arrows != Vector2.ZERO:
 		handleRotation(arrows)
 		
-	var test_vel : Vector3 = velocity
-	test_vel.x = arrows.x
-	test_vel.z = arrows.y		
-	test_move(transform, -test_vel)
-	var lastCollision : KinematicCollision = get_slide_collision(0)
-	if lastCollision:
-		var ang : float = Vector3.UP.angle_to(lastCollision.normal) #print(rad2deg(ang))
-		if ang > unclimbable_angle:
-			#what to do here?
-			pass
-		arrows *= cos(ang)
+	#var test_vel : Vector3 = velocity
+	#test_vel.x = arrows.x
+	#test_vel.z = arrows.y		
+	#test_move(transform, -test_vel)
+	#var lastCollision : KinematicCollision = get_slide_collision(0)
+	#if lastCollision:
+	#	var ang : float = Vector3.UP.angle_to(lastCollision.normal) #print(rad2deg(ang))
+	#	if ang > unclimbable_angle:
+	#		#what to do here?
+	#		pass
+	#	arrows *= cos(ang) #jumps between 1 and 0 too much when walking into walls
 		
 	velocity.x = arrows.x
 	velocity.z = arrows.y
 	
 	if Input.is_action_just_pressed("ui_accept"):
 		velocity += Vector3.UP * jump_speed #how to add "impulses"
-		print("jump")
 	velocity += Vector3.DOWN * gravity * delta #how to add "forces"
 	
 	velocity = move_and_slide(velocity, Vector3.UP, true)
