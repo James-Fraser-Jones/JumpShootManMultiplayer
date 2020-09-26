@@ -2,11 +2,11 @@ extends Camera
 
 #radius
 export var radMax : float = 5 #radius at which camera orbits around target
-export var radSmoothing : float = 0.3
+export var radSmoothing : float = 0.2
 
 #offset
 export var offsetMax : float = 2 #how high camera hovers above target object
-export var offsetSmoothing : float = 0.3
+export var offsetSmoothing : float = 0.2
 
 #orientation
 export var maxPitch : float = 90
@@ -17,7 +17,7 @@ export var oriSensitivity : float = 0.15 #multiplier of raw mouse co-ordinates
 #state
 var rad : float = radMax
 var offset : float = offsetMax
-var ori : Vector2 = Vector2(0, deg2rad(-45)) #current orbit camera orientation in radians
+var ori : Vector2 = Vector2(0, deg2rad(-10)) #current orbit camera orientation in radians
 var oriDebt : Vector2 = Vector2.ZERO #amount of rotation to apply to orientation in future (for camera smoothing)
 var radTarget: float = radMax
 var collisionRatio: float = 1
@@ -51,17 +51,18 @@ func _process(delta) -> void:
 	
 	#update transform with new camera orientation
 	transform.basis = Basis()
-	rotate_object_local(Vector3.UP, ori.x)
+	rotate_object_local(Vector3.UP, ori.x + deg2rad(180))
 	rotate_object_local(Vector3.RIGHT, ori.y)
 		
 	setTranslation(delta, radTarget, collisionRatio)
 
 func _physics_process(delta: float) -> void:
 	#cast ray and check for collision
-	var idealPosition : Vector3 = target.translation + transform.basis.z * radMax
+	var idealPosition : Vector3 = target.translation + (transform.basis.z * radMax).rotated(Vector3.UP, target.initRotation)
 	var space_state = get_world().direct_space_state
 	var result : Dictionary = space_state.intersect_ray(target.translation, idealPosition, [target])
 	if result:
+		#print(result.collider.get_name())
 		var idealVector: Vector3 = idealPosition - target.translation
 		var collisionVector: Vector3 = result.position - target.translation
 		radTarget = collisionVector.length()

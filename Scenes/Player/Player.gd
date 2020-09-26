@@ -6,12 +6,17 @@ export var speed : float = 8
 export var sprint_speed_scalar : float = 1.5
 export var jump_speed: float = 5
 
+var initRotation : float
+
 var oldRotation : float
 var newRotation : float
 var rotationWeight : float = 1
 var sprintDirection : bool = false
 var sprinting : bool = false
 var velocity : Vector3 = Vector3.ZERO
+
+func _ready() -> void:
+	initRotation = rotation.y
 
 func _input(event: InputEvent) -> void:
 	if event.is_action_pressed("sprint"):
@@ -29,10 +34,11 @@ func _physics_process(delta: float) -> void:
 	if Input.is_action_pressed("ui_down"): arrows.y += 1
 	sprintDirection = arrows.y == -1
 	if !sprintDirection: sprinting = false	
-	arrows = arrows.normalized().rotated(-$Camera.ori.x) * (sprint_speed_scalar if sprinting else 1) * speed
+	arrows = arrows.normalized().rotated(-$Camera.ori.x + PI - initRotation) * (sprint_speed_scalar if sprinting else 1) * speed
 	
 	if arrows != Vector2.ZERO:
 		handleRotation(arrows)
+		pass
 		
 	#var test_vel : Vector3 = velocity
 	#test_vel.x = arrows.x
@@ -61,7 +67,7 @@ func _process(delta: float) -> void:
 		$MeshInstance.rotation.y = lerp_angle(oldRotation, newRotation, rotationWeight)
 
 func handleRotation(arrows: Vector2) -> void:
-	var rot = -arrows.angle() - deg2rad(90)
+	var rot = -(arrows.angle() + initRotation + PI/2)
 	if rot != newRotation:
 		oldRotation = $MeshInstance.rotation.y
 		newRotation = rot
