@@ -19,6 +19,9 @@ script = ExtResource( 5 )
 
 [node name="GammaFix" type="Node" parent="."]
 script = ExtResource( 9 )
+path = ""
+reverse = false
+fix = false
 
 [node name="DirectionalLight" type="DirectionalLight" parent="."]
 transform = Transform( 1, 0, 0, 0, 0.898794, 0.438371, 0, -0.438371, 0.898794, 0, 0, 0 )
@@ -37,7 +40,7 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 10, 1.5, 7 )
 transform = Transform( 0.961698, 0, 0.27411, 0, 1, 0, -0.27411, 0, 0.961698, 3.69101, 1.5, -12.9522 )
 
 [node name="Obstacle3" parent="." instance=ExtResource( 3 )]
-transform = Transform( 0.916921, 0, -0.399069, 0, 1, 0, 0.399069, 0, 0.916921, -14.4473, 1.5, 5.02844 )
+transform = Transform( 0.916921, 0, -0.399069, 0, 1, 0, 0.399069, 0, 0.916921, -14.4473, 0.517651, 5.02844 )
 
 [node name="Obstacle_Big" parent="." instance=ExtResource( 6 )]
 transform = Transform( 0.948576, -0.080703, 0.306086, 0.196185, 0.908734, -0.368391, -0.24842, 0.409497, 0.877837, -14.1793, 1.21835, -4.3626 )

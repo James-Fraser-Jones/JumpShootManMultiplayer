@@ -2,7 +2,6 @@ extends Spatial
 
 #UNITS:
 #Distance: Meters
-#Mass: Kilograms
 
 #DONE:
 #Add camera clipping
