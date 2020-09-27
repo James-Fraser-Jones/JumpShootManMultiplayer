@@ -3,18 +3,21 @@ extends KinematicBody
 export var max_collisions : int = 5
 
 export var run_speed : float = 10
-export var climb_speed : float = 10
+export var climb_multiplier : float = 0.7
 export var jump_height : float = 8
 export var max_jumps : int = 2
 export var gravity : float = 15
 export var rotationSpeed : float = 10
+export var sprint_speed_scalar : float = 1.5
 
 export var floor_horiz_decay : float = 0.05
 export var air_horiz_decay : float = 0.5
 export var air_vert_decay : float = 0.95
 
 export var max_floor_angle : float = deg2rad(45)
-export var fast_climbing : bool = false
+export var fast_slopes : bool = false
+export var shooting_duration : float = 2
+export var shooting_knockback : float = 18
 
 var old_rotation : float
 var new_rotation : float
@@ -22,18 +25,55 @@ var rotation_weight : float = 1
 
 var velocity : Vector3 = Vector3.ZERO
 var forces : Array = []
+
 var on_floor : bool = false
-var num_jumps : int = max_jumps
 var jumping : bool = false
+var num_jumps : int = max_jumps
 var climbing : bool = false
+var shooting : bool = false
+var shooting_timer : float = -1
+var sprinting : bool = false
+var sprint_direction : bool = false
 
 func _ready() -> void:
 	forces.append(Vector3.DOWN * gravity) #gravitational force
 
 func _process(delta: float) -> void:
+	#update shooting timer
+	if shooting_timer != -1:
+		shooting_timer += delta
+		if shooting_timer > shooting_duration:
+			shooting = false
+			shooting_timer = -1
+	
+	#handle vertical rotation lerping
 	if rotation_weight < 1:
 		rotation_weight = min(1, rotation_weight + rotationSpeed * delta)
 		$MeshInstance.rotation.y = lerp_angle(old_rotation, new_rotation, rotation_weight)
+
+func _input(event: InputEvent) -> void:
+	#handle jump input and maintain number of available jumps
+	if Input.is_action_just_pressed("jump") and num_jumps > 0:
+		velocity.y += jump_height
+		num_jumps -= 1
+		jumping = true
+	
+	#shooting handling
+	if Input.is_action_just_pressed("shoot"):
+		velocity += $Camera.transform.basis.z.normalized() * shooting_knockback
+		shooting = true
+		shooting_timer = 0
+		sprinting = false
+	
+	#sprint handling
+	if event.is_action_pressed("sprint"):
+		if sprinting:
+			sprinting = false
+		else:
+			if sprint_direction:
+				sprinting = true
+				shooting = false
+				shooting_timer = -1
 
 func _physics_process(delta: float) -> void:
 	#read movement keypress input
@@ -43,13 +83,18 @@ func _physics_process(delta: float) -> void:
 	if Input.is_action_pressed("up"): arrows.y -= 1
 	if Input.is_action_pressed("down"): arrows.y += 1
 	
+	#handle sprinting logic
+	sprint_direction = arrows.y == -1
+	if !sprint_direction: 
+		sprinting = false
+	
 	#derive movement vectors from input
-	var flatMovement : Vector2 = arrows.normalized().rotated(-$Camera.ori.x + PI) * run_speed
+	var flatMovement : Vector2 = arrows.normalized().rotated(-$Camera.ori.x + PI) * (sprint_speed_scalar if sprinting else 1) * run_speed
 	var movement : Vector3 = Vector3(flatMovement.x, 0, flatMovement.y)
 	
 	#take care of vertical rotation in movement direction
-	if arrows != Vector2.ZERO:
-		var rot : float = -(flatMovement.angle() + PI/2)
+	if shooting or flatMovement.length() != 0:
+		var rot : float = ($Camera.ori.x + PI) if shooting else -(flatMovement.angle() + PI/2)
 		if rot != new_rotation:
 			old_rotation = $MeshInstance.rotation.y
 			new_rotation = rot
@@ -58,16 +103,6 @@ func _physics_process(delta: float) -> void:
 	#set gravity force based on whether player is on floor
 	#(minimal value always needed to maintain contact with floor)
 	forces[0] = Vector3.DOWN * ((0.001/delta) if (on_floor or climbing) else gravity)
-	
-	#handle jump input and maintain number of available jumps
-	if Input.is_action_just_pressed("jump") and num_jumps > 0:
-		velocity.y += jump_height
-		num_jumps -= 1
-		jumping = true
-	
-	#shotgun knockback test
-	if Input.is_action_just_pressed("shoot"):
-		velocity += $Camera.transform.basis.z.normalized() * 20
 		
 	#apply recorded forces to velocity
 	for force in forces:
@@ -87,10 +122,11 @@ func _physics_process(delta: float) -> void:
 			num_collisions += 1
 			on_floor = collision.normal.angle_to(Vector3.UP) <= max_floor_angle
 			climbing = collision.collider.is_in_group("ladder")
-			if fast_climbing and on_floor:
+			if fast_slopes and on_floor:
 				d_movement = collision.remainder.slide(collision.normal).normalized() * d_movement.length()
 			elif climbing:
-				d_movement = Vector3.UP * d_movement.length()
+				d_movement = Vector3.UP * max(0, d_movement.dot(-$Camera.transform.basis.z)) * climb_multiplier
+				velocity.y = 0 #prevent accumulation due to gravity
 			else:	
 				d_movement = collision.remainder.slide(collision.normal)
 			velocity = velocity.slide(collision.normal)
