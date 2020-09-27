@@ -58,7 +58,7 @@ func _process(delta) -> void:
 
 func _physics_process(delta: float) -> void:
 	#cast ray and check for collision
-	var idealPosition : Vector3 = target.translation + transform.basis.z * radMax
+	var idealPosition : Vector3 = target.translation + (transform.basis.z * radMax).rotated(Vector3.UP, target.initRotation)
 	var space_state = get_world().direct_space_state
 	var result : Dictionary = space_state.intersect_ray(target.translation, idealPosition, [target])
 	if result:

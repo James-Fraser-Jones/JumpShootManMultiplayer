@@ -1,30 +1,10 @@
 extends KinematicBody
 
-export var rotationSpeed : float = 10
-export var gravity : float = 12
-export var speed : float = 8
-export var sprint_speed_scalar : float = 1.5
-export var jump_speed: float = 5
+export var speed : float = 10
+export var gravity : float = 9.8
+export var jump : float = 10
 
-var initRotation : float
-
-var oldRotation : float
-var newRotation : float
-var rotationWeight : float = 1
-var sprintDirection : bool = false
-var sprinting : bool = false
 var velocity : Vector3 = Vector3.ZERO
-
-func _ready() -> void:
-	initRotation = rotation.y
-
-func _input(event: InputEvent) -> void:
-	if event.is_action_pressed("sprint"):
-		if sprinting:
-			sprinting = false
-		else:
-			if sprintDirection:
-				sprinting = true
 
 func _physics_process(delta: float) -> void:
 	var arrows : Vector2 = Vector2.ZERO
@@ -32,43 +12,21 @@ func _physics_process(delta: float) -> void:
 	if Input.is_action_pressed("ui_right"): arrows.x += 1
 	if Input.is_action_pressed("ui_up"): arrows.y -= 1
 	if Input.is_action_pressed("ui_down"): arrows.y += 1
-	sprintDirection = arrows.y == -1
-	if !sprintDirection: sprinting = false	
-	arrows = arrows.normalized().rotated(-$Camera.ori.x + PI - initRotation) * (sprint_speed_scalar if sprinting else 1) * speed
-	
-	if arrows != Vector2.ZERO:
-		handleRotation(arrows)
-		pass
-		
-	#var test_vel : Vector3 = velocity
-	#test_vel.x = arrows.x
-	#test_vel.z = arrows.y		
-	#test_move(transform, -test_vel)
-	#var lastCollision : KinematicCollision = get_slide_collision(0)
-	#if lastCollision:
-	#	var ang : float = Vector3.UP.angle_to(lastCollision.normal) #print(rad2deg(ang))
-	#	if ang > unclimbable_angle:
-	#		#what to do here?
-	#		pass
-	#	arrows *= cos(ang) #jumps between 1 and 0 too much when walking into walls
-		
-	velocity.x = arrows.x
-	velocity.z = arrows.y
-	
+	var flatMovement : Vector2 = arrows.normalized().rotated(-$Camera.ori.x + PI) * speed
+	var movement : Vector3 = Vector3(flatMovement.x, 0, flatMovement.y)
+	#velocity.y -= gravity * delta
 	if Input.is_action_just_pressed("ui_accept"):
-		velocity += Vector3.UP * jump_speed #how to add "impulses"
-	velocity += Vector3.DOWN * gravity * delta #how to add "forces"
-	
-	velocity = move_and_slide(velocity, Vector3.UP, true)
+		velocity.y += jump
+	var dMovement : Vector3 = (movement + velocity) * delta
+	var collision : KinematicCollision = move_and_collide(dMovement, true, true, true)
+	if collision:
+		print(rad2deg(collision.normal.angle_to(Vector3.UP)))
+		dMovement = dMovement.slide(collision.normal)
+		velocity = velocity.slide(collision.normal)
+	transform.origin += dMovement
+	#currently still phasing through shit, slipperyness seems to work nicely though
+	#also need to make it that movement can actually be used to reduce forces working against
+	#it but only based on some kind of deceleration constant and speed
+	#and movement can't be used to increase these kinds of forces, only reduce them
+	#and movement doesn't actually apply until these "working against" forces are gone in that direction
 
-func _process(delta: float) -> void:
-	if rotationWeight < 1:
-		rotationWeight = min(1, rotationWeight + rotationSpeed * delta)
-		$MeshInstance.rotation.y = lerp_angle(oldRotation, newRotation, rotationWeight)
-
-func handleRotation(arrows: Vector2) -> void:
-	var rot = -(arrows.angle() + initRotation + PI/2)
-	if rot != newRotation:
-		oldRotation = $MeshInstance.rotation.y
-		newRotation = rot
-		rotationWeight = 0
