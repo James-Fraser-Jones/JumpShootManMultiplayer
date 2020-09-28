@@ -3,7 +3,7 @@ extends KinematicBody
 export var max_collisions : int = 5
 
 export var run_speed : float = 10
-export var climb_multiplier : float = 0.7
+export var climb_speed : float = 6
 export var jump_height : float = 8
 export var max_jumps : int = 2
 export var gravity : float = 15
@@ -54,7 +54,7 @@ func _process(delta: float) -> void:
 func _input(event: InputEvent) -> void:
 	#handle jump input and maintain number of available jumps
 	if Input.is_action_just_pressed("jump") and num_jumps > 0:
-		velocity.y += jump_height
+		velocity.y = jump_height
 		num_jumps -= 1
 		jumping = true
 	
@@ -74,6 +74,9 @@ func _input(event: InputEvent) -> void:
 				sprinting = true
 				shooting = false
 				shooting_timer = -1
+	
+	if event.is_action_pressed("reset_velocity"):
+		velocity = Vector3.ZERO
 
 func _physics_process(delta: float) -> void:
 	#read movement keypress input
@@ -108,7 +111,7 @@ func _physics_process(delta: float) -> void:
 	for force in forces:
 		velocity += force * delta
 	
-	#derive final movement vector based on velocity and delta
+	#derive final movement vector based on movement, velocity and delta
 	var d_movement : Vector3 = (movement + velocity) * delta
 	
 	#move and collide up to max of max_collisions this frame
@@ -125,13 +128,16 @@ func _physics_process(delta: float) -> void:
 			if fast_slopes and on_floor:
 				d_movement = collision.remainder.slide(collision.normal).normalized() * d_movement.length()
 			elif climbing:
-				d_movement = Vector3.UP * max(0, d_movement.dot(-$Camera.transform.basis.z)) * climb_multiplier
+				d_movement.x = collision.remainder.slide(collision.normal).x
+				d_movement.z = collision.remainder.slide(collision.normal).z
+				d_movement.y = max(0, -movement.normalized().dot(collision.normal)) * climb_speed * delta
 				velocity.y = 0 #prevent accumulation due to gravity
 			else:	
 				d_movement = collision.remainder.slide(collision.normal)
 			velocity = velocity.slide(collision.normal)
 		else:
 			break
+	print(num_collisions)
 	
 	#decide whether player is jumping and/or on the floor
 	jumping = velocity.y > 0
@@ -139,9 +145,12 @@ func _physics_process(delta: float) -> void:
 		on_floor = false
 		climbing = false
 	
-	#reset available jumps, if necessary and apply appropriate velocity decay
+	#reset available jumps, if necessary
+	if climbing or (on_floor and !jumping): 
+		num_jumps = max_jumps
+	
+	#apply appropriate velocity decay
 	if on_floor:
-		if !jumping: num_jumps = max_jumps
 		velocity.x *= exp(log(floor_horiz_decay) * delta)
 		velocity.z *= exp(log(floor_horiz_decay) * delta)
 	else:
