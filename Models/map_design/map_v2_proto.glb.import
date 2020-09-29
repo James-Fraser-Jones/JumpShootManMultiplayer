@@ -2,12 +2,12 @@
 
 importer="scene"
 type="PackedScene"
-path="res://.import/map_design_1_mesh.glb-378b0e3ecce0d184d71add1325fbd8ee.scn"
+path="res://.import/map_v2_proto.glb-23605b93fbc59e3ec5a514f452ccd0d4.scn"
 
 [deps]
 
-source_file="res://Models/map_design/map_design_1_mesh.glb"
-dest_files=[ "res://.import/map_design_1_mesh.glb-378b0e3ecce0d184d71add1325fbd8ee.scn" ]
+source_file="res://Models/map_design/map_v2_proto.glb"
+dest_files=[ "res://.import/map_v2_proto.glb-23605b93fbc59e3ec5a514f452ccd0d4.scn" ]
 
 [params]
 

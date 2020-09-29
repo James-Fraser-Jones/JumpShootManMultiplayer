@@ -19,6 +19,8 @@ export var fast_slopes : bool = false
 export var shooting_duration : float = 2
 export var shooting_knockback : float = 18
 
+export var controlled : bool = true
+
 var old_rotation : float
 var new_rotation : float
 var rotation_weight : float = 1
@@ -37,6 +39,8 @@ var sprint_direction : bool = false
 
 func _ready() -> void:
 	forces.append(Vector3.DOWN * gravity) #gravitational force
+	if controlled:
+		$Camera.current = true
 
 func _process(delta: float) -> void:
 	#update shooting timer
@@ -57,13 +61,15 @@ func _input(event: InputEvent) -> void:
 		velocity.y = jump_height
 		num_jumps -= 1
 		jumping = true
+		$Jump.play()
 	
 	#shooting handling
-	if Input.is_action_just_pressed("shoot"):
+	if Input.is_action_just_pressed("shoot"): #is_action_just_pressed is brok
 		velocity += $Camera.transform.basis.z.normalized() * shooting_knockback
 		shooting = true
 		shooting_timer = 0
 		sprinting = false
+		$Shoot.play()
 	
 	#sprint handling
 	if event.is_action_pressed("sprint"):
@@ -119,6 +125,7 @@ func _physics_process(delta: float) -> void:
 	#maintain number of collisions and whether each collision indicates
 	#player is on the floor
 	var num_collisions : int = 0
+	var prev_on_floor : bool = on_floor
 	for i in range(max_collisions):
 		var collision : KinematicCollision = move_and_collide(d_movement)
 		if collision:
@@ -137,7 +144,10 @@ func _physics_process(delta: float) -> void:
 			velocity = velocity.slide(collision.normal)
 		else:
 			break
-	print(num_collisions)
+	
+	#check if player landed this frame
+	if !prev_on_floor and on_floor:
+		$Land.play()
 	
 	#decide whether player is jumping and/or on the floor
 	jumping = velocity.y > 0
