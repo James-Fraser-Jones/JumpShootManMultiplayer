@@ -32,6 +32,7 @@ var on_floor : bool = false
 var jumping : bool = false
 var num_jumps : int = max_jumps
 var climbing : bool = false
+var pushed : bool = false
 var shooting : bool = false
 var shooting_timer : float = -1
 var sprinting : bool = false
@@ -132,6 +133,8 @@ func _physics_process(delta: float) -> void:
 			num_collisions += 1
 			on_floor = collision.normal.angle_to(Vector3.UP) <= max_floor_angle
 			climbing = collision.collider.is_in_group("ladder")
+			pushed = collision.collider.is_in_group("moving_platform")
+		
 			if fast_slopes and on_floor:
 				d_movement = collision.remainder.slide(collision.normal).normalized() * d_movement.length()
 			elif climbing:
@@ -139,6 +142,9 @@ func _physics_process(delta: float) -> void:
 				d_movement.z = collision.remainder.slide(collision.normal).z
 				d_movement.y = max(0, -movement.normalized().dot(collision.normal)) * climb_speed * delta
 				velocity.y = 0 #prevent accumulation due to gravity
+			elif pushed:
+				print("pushed!")
+				#velocity = 
 			else:	
 				d_movement = collision.remainder.slide(collision.normal)
 			velocity = velocity.slide(collision.normal)

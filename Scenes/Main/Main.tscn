@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=2]
+[gd_scene load_steps=16 format=2]
 
 [ext_resource path="res://Scenes/Player/Player.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Scenes/Floor.tscn" type="PackedScene" id=2]
@@ -14,6 +14,7 @@
 [ext_resource path="res://Scripts/Weapon_Rotate.gd" type="Script" id=12]
 [ext_resource path="res://Models/snipercamo/snipercamo.glb" type="PackedScene" id=13]
 [ext_resource path="res://Scenes/Ladder.tscn" type="PackedScene" id=14]
+[ext_resource path="res://Scenes/MovingObstacle/MovingObstacle.tscn" type="PackedScene" id=15]
 
 [node name="Main" type="Spatial"]
 script = ExtResource( 5 )
@@ -25,63 +26,69 @@ reverse = false
 fix = false
 
 [node name="DirectionalLight" type="DirectionalLight" parent="."]
-transform = Transform( 1, 0, 0, 0, 0.898794, 0.438371, 0, -0.438371, 0.898794, 0, 0, 0 )
+transform = Transform( 1, 0, 0, 0, 0.898794, 0.438371, 0, -0.438371, 0.898794, 24.0902, 0, -21.4635 )
 light_indirect_energy = 0.0
 
 [node name="Player" parent="." instance=ExtResource( 1 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -18, 0.9, -18 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -20.8687, 0.9, -23.3817 )
 
 [node name="Floor" parent="." instance=ExtResource( 2 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1, 0 )
 
 [node name="Obstacle" parent="." instance=ExtResource( 3 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 10, 1.5, 7 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 34.0902, 1.5, -14.4635 )
 
 [node name="Obstacle2" parent="." instance=ExtResource( 3 )]
-transform = Transform( 0.961698, 0, 0.27411, 0, 1, 0, -0.27411, 0, 0.961698, 3.69101, 1.5, -12.9522 )
+transform = Transform( 0.961698, 0, 0.27411, 0, 1, 0, -0.27411, 0, 0.961698, 27.7813, 1.5, -34.4157 )
 
 [node name="Obstacle3" parent="." instance=ExtResource( 3 )]
-transform = Transform( 0.916921, 0, -0.399069, 0, 1, 0, 0.399069, 0, 0.916921, -14.4473, 0.517651, 5.02844 )
+transform = Transform( 0.916921, 0, -0.399069, 0, 1, 0, 0.399069, 0, 0.916921, 9.64294, 0.517651, -16.435 )
 
 [node name="Obstacle_Big" parent="." instance=ExtResource( 6 )]
-transform = Transform( 0.948576, -0.080703, 0.306086, 0.196185, 0.908734, -0.368391, -0.24842, 0.409497, 0.877837, -14.1793, 1.21835, -4.3626 )
+transform = Transform( 0.948576, -0.080703, 0.306086, 0.196185, 0.908734, -0.368391, -0.24842, 0.409497, 0.877837, 9.91094, 1.21835, -25.8261 )
 
 [node name="Obstacle_Big2" parent="." instance=ExtResource( 6 )]
-transform = Transform( 1, 0, 0, 0, 0.999999, 0, 0, 0, 1, 7, 5, -2 )
+transform = Transform( 1, 0, 0, 0, 0.999999, 0, 0, 0, 1, 31.0902, 5, -23.4635 )
 
 [node name="Obstacle_Big3" parent="." instance=ExtResource( 6 )]
-transform = Transform( 0.92639, 0, -0.376564, 0, 0.999999, 0, 0.376564, 0, 0.92639, -5.2281, 5, 14.2972 )
+transform = Transform( 0.92639, 0, -0.376564, 0, 0.999999, 0, 0.376564, 0, 0.92639, 18.8621, 5, -7.16626 )
 
 [node name="Wall" parent="." instance=ExtResource( 4 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 24.0902, 0, -21.4635 )
 
 [node name="Wall2" parent="." instance=ExtResource( 4 )]
-transform = Transform( -1.62921e-07, 0, 1, 0, 1, 0, -1, 0, -1.62921e-07, 0, 0, 0 )
+transform = Transform( -1.62921e-07, 0, 1, 0, 1, 0, -1, 0, -1.62921e-07, 24.0902, 0, -21.4635 )
 
 [node name="Wall3" parent="." instance=ExtResource( 4 )]
 transform = Transform( -1, 0, -3.25841e-07, 0, 1, 0, 3.25841e-07, 0, -1, 0, 0, 0 )
+visible = false
+collision_layer = 2
+collision_mask = 2
 
 [node name="Wall4" parent="." instance=ExtResource( 4 )]
-transform = Transform( 1.19249e-08, 0, -1, 0, 1, 0, 1, 0, 1.19249e-08, 0, 0, 0 )
+transform = Transform( 1.19249e-08, 0, -1, 0, 1, 0, 1, 0, 1.19249e-08, 24.0902, 0, -21.4635 )
 
 [node name="shotgun" parent="." instance=ExtResource( 7 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -1.80711, 0.742, -12.7191 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 22.2831, 1.91229, -34.1826 )
 script = ExtResource( 12 )
 
 [node name="machinegun" parent="." instance=ExtResource( 11 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 2.37862, 0.517749, 16.371 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 26.4689, 2.04953, -5.09246 )
 script = ExtResource( 12 )
 
 [node name="uzigoldlongsilencer" parent="." instance=ExtResource( 10 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 16.9808, 0.6525, 4.55256 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 41.071, 2.37673, -16.9109 )
 script = ExtResource( 12 )
 
 [node name="rocketlauncher" parent="." instance=ExtResource( 8 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -15.0687, 0.72246, 14.2884 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 9.02154, 2.04445, -7.17506 )
 script = ExtResource( 12 )
 
 [node name="snipercamo" parent="." instance=ExtResource( 13 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 13.2547, 0.759133, -10.2919 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 37.3449, 2.25122, -31.7554 )
 script = ExtResource( 12 )
 
 [node name="Ladder" parent="." instance=ExtResource( 14 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 1.9, 5, -4 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 25.9902, 5, -25.4635 )
+
+[node name="MovingObstacle" parent="." instance=ExtResource( 15 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -27.3504, 1.81562, 7.89768 )
