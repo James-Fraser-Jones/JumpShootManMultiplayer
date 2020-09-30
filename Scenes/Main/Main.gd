@@ -25,7 +25,8 @@ func _input(event: InputEvent) -> void:
 		if event.pressed and event.scancode == KEY_ESCAPE:
 			get_tree().quit()
 		if event.pressed and event.scancode == KEY_R:
-			get_tree().reload_current_scene()
+			Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
+			get_tree().change_scene("res://Scenes/TitleScreen/TitleScreen.tscn")
 
 func _ready() -> void:
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)

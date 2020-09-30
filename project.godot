@@ -16,8 +16,13 @@ _global_script_class_icons={
 [application]
 
 config/name="Jump Shoot Man Multiplayer"
-run/main_scene="res://Scenes/Main/Main.tscn"
+run/main_scene="res://Scenes/TitleScreen/TitleScreen.tscn"
 config/icon="res://icon.png"
+
+[display]
+
+window/size/width=1280
+window/size/height=720
 
 [input]
 
@@ -88,5 +93,5 @@ reset_velocity={
 
 [rendering]
 
-environment/default_clear_color=Color( 1, 1, 1, 1 )
+environment/default_clear_color=Color( 0.145098, 0.352941, 0.454902, 1 )
 environment/default_environment="res://default_env.tres"
