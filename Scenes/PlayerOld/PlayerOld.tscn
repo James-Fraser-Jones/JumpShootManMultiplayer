@@ -2,7 +2,8 @@
 
 [ext_resource path="res://Scenes/Player/Camera.gd" type="Script" id=1]
 [ext_resource path="res://Textures/texture_08_green_eyes.png" type="Texture" id=2]
-[ext_resource path="res://Scenes/Player/Player.gd" type="Script" id=3]
+[ext_resource path="res://Scenes/Player/Player_Old.gd" type="Script" id=3]
+
 
 [sub_resource type="CapsuleShape" id=1]
 radius = 0.5

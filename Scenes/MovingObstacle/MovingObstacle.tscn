@@ -17,6 +17,7 @@ extents = Vector3( 1.5, 1.5, 1.5 )
 [node name="MovingObstacle" type="KinematicBody" groups=[
 "moving_platform",
 ]]
+collision_layer = 2
 script = ExtResource( 2 )
 
 [node name="MeshInstance" type="MeshInstance" parent="."]

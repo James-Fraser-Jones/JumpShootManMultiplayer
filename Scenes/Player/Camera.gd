@@ -2,11 +2,11 @@ extends Camera
 
 #radius
 export var radMax : float = 5 #radius at which camera orbits around target
-export var radSmoothing : float = 0.2
+export var radSmoothing : float = 0.1
 
 #offset
 export var offsetMax : float = 2 #how high camera hovers above target object
-export var offsetSmoothing : float = 0.2
+export var offsetSmoothing : float = 0.1
 
 #orientation
 export var maxPitch : float = 90

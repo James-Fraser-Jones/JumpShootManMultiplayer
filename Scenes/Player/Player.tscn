@@ -37,7 +37,10 @@ albedo_color = Color( 0.737255, 0.278431, 0.0784314, 1 )
 [sub_resource type="SpatialMaterial" id=9]
 albedo_color = Color( 0, 0, 0, 1 )
 
-[node name="Player" type="KinematicBody"]
+[node name="Player" type="KinematicBody" groups=[
+"player",
+]]
+collision_mask = 3
 script = ExtResource( 3 )
 
 [node name="CollisionShape" type="CollisionShape" parent="."]

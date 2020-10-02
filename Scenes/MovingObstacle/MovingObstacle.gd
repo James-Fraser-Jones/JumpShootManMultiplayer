@@ -6,13 +6,21 @@ export var switch : float = 2
 
 var i : int = 0
 var timer : float = 0
+var velocity : Vector3 = directions[i] * speed
 
 func _physics_process(delta):
 	timer += delta
 	if timer > switch:
 		i = (i+1) % directions.size()
 		timer = fmod(timer, switch)
+	velocity = directions[i] * speed
+	move_and_slide(velocity)
 	
-	move_and_slide(directions[i] * speed)
+	var collision : KinematicCollision
+	for i in range(get_slide_count()):
+		collision = get_slide_collision(i)
+		if collision.collider.is_in_group("player"):
+			var player : KinematicBody = collision.collider
+			player.offset += velocity
 
 

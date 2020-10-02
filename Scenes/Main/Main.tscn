@@ -33,6 +33,7 @@ light_indirect_energy = 0.0
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -20.8687, 0.9, -23.3817 )
 
 [node name="Floor" parent="." instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1, 0 )
 
 [node name="Obstacle" parent="." instance=ExtResource( 3 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 34.0902, 1.5, -14.4635 )
@@ -47,7 +48,7 @@ transform = Transform( 0.916921, 0, -0.399069, 0, 1, 0, 0.399069, 0, 0.916921, 9
 transform = Transform( 0.948576, -0.080703, 0.306086, 0.196185, 0.908734, -0.368391, -0.24842, 0.409497, 0.877837, 9.91094, 1.21835, -25.8261 )
 
 [node name="Obstacle_Big2" parent="." instance=ExtResource( 6 )]
-transform = Transform( 1, 0, 0, 0, 0.999999, 0, 0, 0, 1, 31.0902, 5, -23.4635 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 31, 5, -24 )
 
 [node name="Obstacle_Big3" parent="." instance=ExtResource( 6 )]
 transform = Transform( 0.92639, 0, -0.376564, 0, 0.999999, 0, 0.376564, 0, 0.92639, 18.8621, 5, -7.16626 )
@@ -59,10 +60,7 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 24.0902, 0, -21.4635 )
 transform = Transform( -1.62921e-07, 0, 1, 0, 1, 0, -1, 0, -1.62921e-07, 24.0902, 0, -21.4635 )
 
 [node name="Wall3" parent="." instance=ExtResource( 4 )]
-transform = Transform( -1, 0, -3.25841e-07, 0, 1, 0, 3.25841e-07, 0, -1, 0, 0, 0 )
-visible = false
-collision_layer = 2
-collision_mask = 2
+transform = Transform( -1, 0, -3.25841e-07, 0, 1, 0, 3.25841e-07, 0, -1, 12.5724, 0, 10.2987 )
 
 [node name="Wall4" parent="." instance=ExtResource( 4 )]
 transform = Transform( 1.19249e-08, 0, -1, 0, 1, 0, 1, 0, 1.19249e-08, 24.0902, 0, -21.4635 )
@@ -88,7 +86,7 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 37.3449, 2.25122, -31.7554 )
 script = ExtResource( 12 )
 
 [node name="Ladder" parent="." instance=ExtResource( 14 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 25.9902, 5, -25.4635 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 25.9, 5, -26 )
 
 [node name="MovingObstacle" parent="." instance=ExtResource( 15 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -27.3504, 1.81562, 7.89768 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -45.259, 1.6, 37.484 )
