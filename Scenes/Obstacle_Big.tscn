@@ -14,6 +14,7 @@ uv1_triplanar = true
 extents = Vector3( 5, 5, 5 )
 
 [node name="Obstacle_Big" type="StaticBody"]
+collision_layer = 2147483650
 
 [node name="MeshInstance" type="MeshInstance" parent="."]
 mesh = SubResource( 1 )

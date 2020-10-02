@@ -30,7 +30,7 @@ transform = Transform( 1, 0, 0, 0, 0.898794, 0.438371, 0, -0.438371, 0.898794, 2
 light_indirect_energy = 0.0
 
 [node name="Player" parent="." instance=ExtResource( 1 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -20.8687, 0.9, -23.3817 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -34.5261, 4.24284, 43.2092 )
 
 [node name="Floor" parent="." instance=ExtResource( 2 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1, 0 )
@@ -89,4 +89,4 @@ script = ExtResource( 12 )
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 25.9, 5, -26 )
 
 [node name="MovingObstacle" parent="." instance=ExtResource( 15 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -45.259, 1.6, 37.484 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -42.8459, 1.6, 42.2937 )

@@ -14,8 +14,6 @@ export var shooting_knockback : float = 18
 
 var climbing : bool = false
 var velocity : Vector3 = Vector3.ZERO
-#var pushed : bool = false
-var offset : Vector3 = Vector3.ZERO
 
 func _input(event):
 	if Input.is_action_just_pressed("shoot"): #is_action_just_pressed is brok
@@ -37,17 +35,16 @@ func _physics_process(delta):
 		velocity.y = 0
 		movement.y += climb_speed * sign($Camera.ori.y)
 		
-	move_and_slide(movement + velocity + offset, Vector3.UP, true)
+	move_and_slide(movement + velocity, Vector3.UP)
 	
 	#slide existing velocity and check for ladder collisions
 	climbing = false
-	#pushed = false
 	var collision : KinematicCollision
 	for i in range(get_slide_count()):
 		collision = get_slide_collision(i)
 		velocity = velocity.slide(collision.normal)
 		climbing = collision.collider.is_in_group("ladder") or climbing
-		#pushed = collision.collider.is_in_group("moving_platform") or pushed
+		#if collision.collider.is_in_group("moving_platform"): print("Here he is") #seems to be working
 	
 	#apply drag
 	if is_on_floor():
@@ -63,7 +60,4 @@ func _physics_process(delta):
 		velocity.y -= 0.001
 	else:
 		velocity.y -= gravity * delta
-		
-	#reset offset
-	offset = Vector3.ZERO
 	

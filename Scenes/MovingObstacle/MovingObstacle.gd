@@ -1,26 +1,54 @@
 extends KinematicBody
 
-export var speed : float = 10
-export var directions : Array = [Vector3.RIGHT, Vector3.FORWARD, Vector3.LEFT, Vector3.BACK, Vector3.UP, Vector3.DOWN]
-export var switch : float = 2
+#export var directions : Array = [Vector3.RIGHT, Vector3.FORWARD, Vector3.LEFT, Vector3.BACK, Vector3.UP, Vector3.DOWN]
+#export var switch : float = 2
+#export var positions : Array = [Vector3(-26, 1.6, 42), Vector3(-26, 1.6, 9)]
+var speed : float = 10
 
-var i : int = 0
-var timer : float = 0
-var velocity : Vector3 = directions[i] * speed
+#var i : int = 0
+#var timer : float = 0
+var velocity : Vector3
+var margin : float = 1
+var destination : Vector3
+var rng = RandomNumberGenerator.new()
+
+func _ready():
+	rng.randomize()
+	get_new_destination()
+	
+func get_new_destination():
+	destination = Vector3(rng.randf_range(-46, -16), rng.randf_range(1, 20), rng.randf_range(-46, 46))
+	#destination = Vector3(rng.randf_range(-46, -46), rng.randf_range(1, 20), rng.randf_range(-46, -46))
+	speed = rng.randf_range(2, 20)
 
 func _physics_process(delta):
-	timer += delta
-	if timer > switch:
-		i = (i+1) % directions.size()
-		timer = fmod(timer, switch)
-	velocity = directions[i] * speed
-	move_and_slide(velocity)
+	var diff : Vector3 = destination - transform.origin
+	if diff.length() <= margin:
+		get_new_destination()
+		diff = destination - transform.origin
+	velocity = diff.normalized() * speed
+	transform.origin += velocity * delta
 	
-	var collision : KinematicCollision
-	for i in range(get_slide_count()):
-		collision = get_slide_collision(i)
-		if collision.collider.is_in_group("player"):
-			var player : KinematicBody = collision.collider
-			player.offset += velocity
+	#timer += delta
+	#if timer > switch:
+	#	i = (i+1) % directions.size()
+	#	timer = fmod(timer, switch)
+	#velocity = directions[i] * speed
+	
+	
+	#var collision : KinematicCollision = move_and_collide(velocity * delta)
+	#if collision and collision.collider.is_in_group("player"):
+	#	var player : KinematicBody = collision.collider
+		#player.transform.origin += collision.remainder
+	#	transform.origin += velocity * delta
+		#player.velocity += velocity * 0.1 #kind of just works tbh
+		#player.velocity = velocity #another possibility
 
-
+#func _physics_process(delta):
+#    var collision : KinematicCollision = move_and_collide(velocity * delta)
+#    if collision:
+#        if collision.collider.is_in_group("player"):
+#            var player : KinematicBody = collision.collider
+#            player.move_and_slide(collision.remainder, Vector3.UP)
+#            collision = move_and_collide(collision.remainder)
+#            if collision: print("this should not happen")

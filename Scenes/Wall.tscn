@@ -14,6 +14,7 @@ uv1_triplanar = true
 extents = Vector3( 24, 2.5, 1 )
 
 [node name="Wall" type="StaticBody"]
+collision_layer = 2
 
 [node name="MeshInstance" type="MeshInstance" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 2.5, -24 )

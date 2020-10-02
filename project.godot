@@ -91,6 +91,12 @@ reset_velocity={
  ]
 }
 
+[layer_names]
+
+3d_physics/layer_1="Players"
+3d_physics/layer_2="Static Geometry"
+3d_physics/layer_3="Kinematic Geometry"
+
 [rendering]
 
 environment/default_clear_color=Color( 0.145098, 0.352941, 0.454902, 1 )
