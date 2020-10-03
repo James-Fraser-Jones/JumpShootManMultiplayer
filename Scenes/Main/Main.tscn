@@ -30,7 +30,7 @@ transform = Transform( 1, 0, 0, 0, 0.898794, 0.438371, 0, -0.438371, 0.898794, 2
 light_indirect_energy = 0.0
 
 [node name="Player" parent="." instance=ExtResource( 1 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -41.552, 5.30963, 42.4737 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -41.552, 3.14325, 42.4737 )
 
 [node name="Floor" parent="." instance=ExtResource( 2 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1, 0 )
