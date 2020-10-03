@@ -1,7 +1,6 @@
 extends KinematicBody
 
 export var move_speed : float = 15
-export var move_decel : float = 5
 export var gravity : float = 12
 export var jump_force : float = 10
 export var climb_speed : float = 6
@@ -34,7 +33,8 @@ func _physics_process(delta):
 	if climbing and arrows.y == -1:
 		velocity.y = 0
 		movement.y += climb_speed * sign($Camera.ori.y)
-		
+	
+	#USE MOVE AND SLIDE WITH SNAP IF STOOD ON MOVING PLATFORM
 	move_and_slide(movement + velocity, Vector3.UP)
 	
 	#slide existing velocity and check for ladder collisions

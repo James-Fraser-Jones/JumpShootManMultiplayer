@@ -34,21 +34,3 @@ func _physics_process(delta):
 	#	i = (i+1) % directions.size()
 	#	timer = fmod(timer, switch)
 	#velocity = directions[i] * speed
-	
-	
-	#var collision : KinematicCollision = move_and_collide(velocity * delta)
-	#if collision and collision.collider.is_in_group("player"):
-	#	var player : KinematicBody = collision.collider
-		#player.transform.origin += collision.remainder
-	#	transform.origin += velocity * delta
-		#player.velocity += velocity * 0.1 #kind of just works tbh
-		#player.velocity = velocity #another possibility
-
-#func _physics_process(delta):
-#    var collision : KinematicCollision = move_and_collide(velocity * delta)
-#    if collision:
-#        if collision.collider.is_in_group("player"):
-#            var player : KinematicBody = collision.collider
-#            player.move_and_slide(collision.remainder, Vector3.UP)
-#            collision = move_and_collide(collision.remainder)
-#            if collision: print("this should not happen")
