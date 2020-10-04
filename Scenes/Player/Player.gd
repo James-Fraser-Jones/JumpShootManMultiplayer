@@ -22,7 +22,7 @@ var num_jumps : int = max_jumps
 var is_surfing : bool = false
 var is_shooting : bool = false
 var shooting_timer : float = -1
-var is_gliding : bool = false
+var is_gliding : bool = false #future
 
 var old_rotation : float
 var new_rotation : float
@@ -133,5 +133,5 @@ func _physics_process(delta):
 	#apply recorded forces to velocity
 	for force in forces:
 		velocity += force * delta
-	
-	print(velocity)
+		
+	#print(is_surfing)
