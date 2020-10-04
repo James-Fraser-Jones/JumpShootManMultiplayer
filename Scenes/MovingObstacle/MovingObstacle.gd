@@ -31,7 +31,7 @@ func _physics_process(delta):
 	diff_length = diff.length()
 	
 func get_new_destination():
-	destination = Vector3(rng.randf_range(-46, -16), rng.randf_range(1, 20), rng.randf_range(-46, 46))
+	destination = Vector3(rng.randf_range(-46, -16), rng.randf_range(1, 25), rng.randf_range(-46, 46))
 
 func decelerate(distance_remaining : float) -> bool:
 	return (distance_remaining <= (pow(velocity.length(), 2)/(2*acceleration)))

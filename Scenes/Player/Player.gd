@@ -11,6 +11,7 @@ export var gravity_force : float = 12
 export var max_floor_angle : float = deg2rad(45)
 export var rotation_speed : float = 10
 export var snap_vector : Vector3 = Vector3.DOWN * 1
+export var deceleration : float = 10
 
 export var floor_horiz_decay : float = 0.05
 export var air_horiz_decay : float = 0.8
@@ -67,8 +68,8 @@ func _physics_process(delta):
 	if Input.is_action_pressed("right"): arrows.x += 1
 	if Input.is_action_pressed("up"): arrows.y -= 1
 	if Input.is_action_pressed("down"): arrows.y += 1
-	
 	var flat_movement : Vector2 = arrows.normalized().rotated(-$Camera.ori.x + PI) * run_speed
+	
 	var movement : Vector3 = Vector3(flat_movement.x, 0, flat_movement.y)
 	
 	#take care of vertical rotation in movement direction
@@ -83,6 +84,20 @@ func _physics_process(delta):
 	if is_climbing and arrows.y == -1:
 		velocity.y = 0
 		movement.y += climb_speed * sign($Camera.ori.y)
+	
+	#apply deceleration (if necessary)
+	var flat_velocity : Vector2 = Vector2(velocity.x, velocity.z)
+	if flat_velocity != Vector2.ZERO and flat_movement != Vector2.ZERO:
+		var ang : float = flat_velocity.angle_to(flat_movement)
+		if ang < -PI/2 or ang > PI/2:
+			var new_flat_movement : Vector2 = flat_movement.project(flat_velocity.rotated(PI/2))
+			var current_deceleration : Vector2 = -flat_velocity.normalized() * deceleration * delta
+			var deceleration_scale : float = 2*abs(ang)/PI - 1 #range [0-1]
+			current_deceleration *= deceleration_scale
+			#apply changes in movement and velocity vectors
+			velocity += Vector3(current_deceleration.x, 0, current_deceleration.y)
+			movement.x = new_flat_movement.x
+			movement.z = new_flat_movement.y
 	
 	#apply the movement
 	var prev_is_on_floor : bool = is_on_floor()

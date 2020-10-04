@@ -26,11 +26,13 @@ reverse = false
 fix = false
 
 [node name="DirectionalLight" type="DirectionalLight" parent="."]
-transform = Transform( 1, 0, 0, 0, 0.898794, 0.438371, 0, -0.438371, 0.898794, 24.0902, 0, -21.4635 )
+transform = Transform( 1, 0, 0, 0, 0.898794, 0.438371, 0, -0.438371, 0.898794, 24.0765, 7.62939e-06, -20.9725 )
+light_color = Color( 0.976471, 0.941176, 0.576471, 1 )
+light_energy = 2.0
 light_indirect_energy = 0.0
 
 [node name="Player" parent="." instance=ExtResource( 1 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -41.552, 3.14325, 42.4737 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -41.552, 3.41806, 40.7705 )
 
 [node name="Floor" parent="." instance=ExtResource( 2 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1, 0 )
