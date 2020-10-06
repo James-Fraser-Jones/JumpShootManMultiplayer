@@ -11,7 +11,7 @@ export var gravity_force : float = 12
 export var max_floor_angle : float = deg2rad(45)
 export var rotation_speed : float = 10
 export var snap_vector : Vector3 = Vector3.DOWN * 1
-export var deceleration : float = 10
+export var deceleration : float = 15
 
 export var floor_horiz_decay : float = 0.05
 export var air_horiz_decay : float = 0.8
@@ -31,6 +31,8 @@ var rotation_weight : float = 1
 
 var velocity : Vector3 = Vector3.ZERO
 var forces : Array = []
+
+#var noise = Noise
 
 func _ready():
 	forces.append(Vector3.DOWN * gravity_force) #gravitational force
@@ -149,4 +151,4 @@ func _physics_process(delta):
 	for force in forces:
 		velocity += force * delta
 		
-	#print(is_surfing)
+	#print(velocity.length())
