@@ -3,7 +3,8 @@ extends Node
 
 export var path : String
 export var file_name : String
-export (float, -1, 1) var threshold : float = 0
+export var size : Vector3
+export (float, 0, 1) var threshold : float = 0.2
 export (NodePath) var mesh_instance_path
 export var generate : bool = false setget run_generate
 
@@ -22,7 +23,7 @@ func run_generate(k):
 		
 		st = SurfaceTool.new()
 		st.begin(Mesh.PRIMITIVE_TRIANGLES)
-		add_cubes(Vector3.ZERO, Vector3(1,1,1), Vector3(20,20,20))
+		add_cubes(Vector3.ZERO, Vector3(1,1,1), size)
 		st.generate_normals()
 		st.index()
 		
@@ -72,6 +73,6 @@ func add_cubes(origin: Vector3, scale: Vector3, size: Vector3):
 				var this_origin : Vector3 = origin
 				this_origin += Vector3(x,y,z) * scale
 				var val : float = noise.get_noise_3d(x,y,z)
-				if val > threshold:
+				if val <= threshold and val >= -threshold:
 					add_cube_safe(this_origin, scale)
 				else: print(val)
