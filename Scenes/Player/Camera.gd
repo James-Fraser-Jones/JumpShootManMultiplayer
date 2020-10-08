@@ -56,7 +56,7 @@ func _process(delta) -> void:
 		
 	setTranslation(delta, radTarget, collisionRatio)
 
-func _physics_process(delta: float) -> void:
+func _physics_process(_delta: float) -> void:
 	#cast ray and check for collision
 	var idealPosition : Vector3 = target.translation + transform.basis.z * radMax
 	var space_state = get_world().direct_space_state
